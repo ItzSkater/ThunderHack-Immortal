@@ -1,22 +1,28 @@
 {
   "schemaVersion": 1,
   "id": "thunderhack",
-  "version": "1.7",
+  "version": "${version}",
   "icon": "icon.png",
-  "name": "ThunderHack",
-  "description": "Player Assistance Mod",
+  "name": "ThunderHack-Immortal",
+  "description": "ThunderHack-Recode fork with neural KillAura (LiquidBounce NextGen) and Baritone, configs compatible with original ThunderHack.",
   "authors": [
     {
-      "name": "pan4ur",
+      "name": "ItzSkater (Immortal fork)"
+    },
+    {
+      "name": "pan4ur (original ThunderHack-Recode)",
       "contact": {
         "discord": "pan4ur"
       }
     },
     {
-      "name": "06ED",
+      "name": "06ED (original ThunderHack-Recode)",
       "contact": {
         "discord": "dinner_enjoyer"
       }
+    },
+    {
+      "name": "CCBlueX (LiquidBounce NextGen — neural KillAura origin)"
     }
   ],
   "license": "GNU General Public License v3.0",
@@ -28,9 +34,8 @@
     ]
   },
   "contact": {
-    "sources": "https://github.com/Pan4ur/ThunderHack-Recode",
-    "homepage": "https://thunderhack-site.vercel.app",
-    "issues": "https://github.com/Pan4ur/ThunderHack-Recode/issues"
+    "sources": "https://github.com/itzskater/ThunderHack-Immortal",
+    "issues": "https://github.com/itzskater/ThunderHack-Immortal/issues"
   },
   "mixins": [
     "thunderhack.mixins.json"
