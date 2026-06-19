@@ -25,7 +25,9 @@ jobs:
         id: ref
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "ref=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+            # Build from the branch the dispatch was triggered on so we can
+            # ship hotfixes without re-tagging, then upload to the input tag.
+            echo "ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
             echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
           else
             echo "ref=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"

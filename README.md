@@ -1,80 +1,79 @@
-<p align="center">
-    <img src="https://i.imgur.com/ZiJ0r7y.png" style="width: 69%">
-</p>
+# ThunderHack-Immortal
+
+A Fabric 1.21 fork of [ThunderHack-Recode](https://github.com/Pan4ur/ThunderHack-Recode)
+focused on bringing the legendary ThunderHack back to life with modern
+features ported from other clients.
 
 > [!WARNING]
-> Work on ThunderHack Recode is completely stopped, 
-> it will be replaced by CatLean, a new free client
-> with closed source code and higher quality modules,
-> you can follow CatLean in my [Discord server](https://discord.gg/PvBhPWdkVD)
+> ThunderHack-Immortal is provided for **educational purposes only**. Using
+> any client mod that gives you an advantage over other players may get you
+> banned. You use it at your own risk.
 
-<div align="center">
-<img src="https://cdn.discordapp.com/attachments/934396624111824900/1230019159027617792/furro.gif?ex=6631cb9c&is=661f569c&hm=b6cee2cd9b6ec238f54c80dcfc421f2c8ecd3f750f2f61a62087d1e01d201e4d&" style="width: 69%">
-</div>
+> [!NOTE]
+> Configs from the original ThunderHack-Recode load as-is — the mod id
+> (`thunderhack`) and the config folder (`ThunderHackRecode`) are unchanged.
 
+## What's new in Immortal
 
-<div align="center">
+### Combat
+- **Neural KillAura** — port of LiquidBounce NextGen's MLP-based aim
+  smoothing. Built on DJL + PyTorch and ships the original LB `.params`
+  weights so the network behaves identically.
+- **Aura** — defaults tuned for snappier hits (CPS 11–16, attack tick
+  limit 7) plus a new **Vega** rotation mode: a single-tick flick that
+  consumes ~85% of the remaining yaw delta with jitter, then arcs pitch
+  in via the existing acceleration term.
+- **TargetStrafe** — added a **Fast** toggle with `FastMultiplier`
+  (1.1–4×) on the strafe speed for blink-style orbiting.
+- **TargetTP** — burst-teleports the player around `Aura.target` at up
+  to 60 tp/s with configurable spoof packets, leaving Aura to own
+  targeting/attacks. Built on `ClickTP`'s `PositionAndOnGround` pattern
+  (no ender pearls). **Vanilla / weak-anticheat servers only** — Spartan,
+  Matrix and Grim will rubber-band you.
 
-[![Discord Mine](https://img.shields.io/discord/1140266441082404924?label=discord&logo=discord&logoColor=white)](https://discord.gg/PvBhPWdkVD)
+### Movement (Vegaline ports)
+- **VClip** — vertical clip on enable (configurable power, auto-disables).
+- **AirJump** — `Vanilla` and `GroundSpoof` modes for mid-air jumps.
+- **AirStuck** — zero velocity and cancel outbound position packets so
+  you freeze mid-air.
+- **HighJump** — boost jump strength on `EventPlayerJump`.
+- **PhantomDash** — sneak-burst dash with configurable factor / dash
+  ticks / push ticks.
 
-</div>
+## Roadmap
 
+- [ ] Port to Minecraft 1.21.11
+- [ ] Integrate Baritone pathfinding (Meteor/standalone)
+- [ ] Port the rest of the interesting Vegaline modules
+  (BackTrack, MiniMap, CaveFinder, DeathBox, AntiCrystal, …)
+- [ ] Community-requested features from the original ThunderHack issues
+  (Smart Distance KillAura, Grim velocity bypass, transparent ArrayList,
+  Auto-Totem improvements, …)
 
-# Cya 04.04.23 - 9.10.24 project!
-<div align="center">
-<img src="assets/U03-01-20-U12-05-01-14.png">
-</div>
+## Install
 
-## Information
+1. Install [Fabric Loader](https://fabricmc.net/use/installer/) for
+   Minecraft 1.21.
+2. Install [Fabric API](https://modrinth.com/mod/fabric-api).
+3. Grab the latest jar from
+   [Releases](https://github.com/ItzSkater/ThunderHack-Immortal/releases)
+   and drop it in `.minecraft/mods/`.
 
-- Minecraft version: ```Fabric``` 1.21 (or whatever version's the latest)
-- Default ClickGui keybind - **```P```** (<--- it is not, you should go to the Discord server and ask for the real keybind)
-- Default prefix - **```@```**
-- Middle click the module to bind it.
-- Be aware Expensive, DoxWare 2.0, gumballoff, Treoderia "Recode", Deluxe Client, and Quick Client are both ratted and renames of this client.
+## Building from source
 
-## Requires these mods:
+```bash
+git clone https://github.com/ItzSkater/ThunderHack-Immortal.git
+cd ThunderHack-Immortal
+./gradlew build
+```
 
-- [FabricApi 1.21](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/5531908)
-- [Java 21+](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
-
-## Recommended to read:
-
-- [Performance guide for Minecraft 1.20.4+ Clients](https://gist.github.com/HexedHero/aab340a84db51913cb1106c2d85f4e4f)
-- [Setup guide by @DevilishRak](https://thunderguidemc.vercel.app/)
+The jar lands in `build/libs/thunderhack-immortal-<version>.jar`.
 
 ## Credits
 
-- [Ai_24](https://www.youtube.com/@Ai_24) for cool showcase
-- [KiLAB Gaming](https://www.youtube.com/@KiLABGaming) for complete overview
-- [@meteordevelopment](https://github.com/meteordevelopment) for orbit
-- [@ladysnake](https://github.com/ladysnake) for satin
-- [@0x3C50](https://github.com/0x3C50/Renderer) for the renderer
-
-## Screenshots
-<details>
-<summary>GUI</summary>
-
-![image](assets/1.png)
-</details>
-<details>
-<summary>CRYSTAL HVH</summary>
-
-![image](assets/2.png)
-![image](assets/3.png)
-![image](assets/4.png)
-</details>
-<details>
-<summary>SWORD HVH</summary>
-
-![image](assets/5.gif)
-</details>
-
-![image](https://github.com/Pan4ur/ThunderHack-Recode/assets/82473048/1e56338f-58a1-4759-8234-858878bdde3f)
-
-## Addons
-
-### Resources
-
-- [Addon Template](https://github.com/cvs0/ThunderHack-Recode-Addon-Template) by cvs0
-- [ThunderHack Addon Docs (COMING SOON)]()
+- [Pan4ur/ThunderHack-Recode](https://github.com/Pan4ur/ThunderHack-Recode)
+  — the base client this is forked from.
+- [CCBlueX/LiquidBounce](https://github.com/CCBlueX/LiquidBounce) NextGen —
+  Neural KillAura architecture and shipped `.params` weights.
+- Vegaline — source of the movement port ideas (VClip, AirJump, AirStuck,
+  HighJump, PhantomDash) and the Vega rotation pattern.
