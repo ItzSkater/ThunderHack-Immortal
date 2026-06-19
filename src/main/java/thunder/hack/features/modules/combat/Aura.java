@@ -84,8 +84,8 @@ public class Aura extends Module {
     public final Setting<Boolean> clientLook = new Setting<>("ClientLook", false);
     public final Setting<Boolean> pauseBaritone = new Setting<>("PauseBaritone", false);
     public final Setting<BooleanSettingGroup> oldDelay = new Setting<>("OldDelay", new BooleanSettingGroup(false));
-    public final Setting<Integer> minCPS = new Setting<>("MinCPS", 7, 1, 20).addToGroup(oldDelay);
-    public final Setting<Integer> maxCPS = new Setting<>("MaxCPS", 12, 1, 20).addToGroup(oldDelay);
+    public final Setting<Integer> minCPS = new Setting<>("MinCPS", 11, 1, 20).addToGroup(oldDelay);
+    public final Setting<Integer> maxCPS = new Setting<>("MaxCPS", 16, 1, 20).addToGroup(oldDelay);
 
     public final Setting<ESP> esp = new Setting<>("ESP", ESP.ThunderHack);
     public final Setting<SettingGroup> espGroup = new Setting<>("ESPSettings", new SettingGroup(false, 0), v -> esp.is(ESP.ThunderHackV2));
@@ -123,9 +123,9 @@ public class Aura extends Module {
     public final Setting<Float> aimedPitchStep = new Setting<>("AimedPitchStep", 1f, 0f, 90f).addToGroup(advanced);
     public final Setting<Float> maxPitchStep = new Setting<>("MaxPitchStep", 8f, 1f, 90f).addToGroup(advanced);
     public final Setting<Float> pitchAccelerate = new Setting<>("PitchAccelerate", 1.65f, 1f, 10f).addToGroup(advanced);
-    public final Setting<Float> attackCooldown = new Setting<>("AttackCooldown", 0.9f, 0.5f, 1f).addToGroup(advanced);
-    public final Setting<Float> attackBaseTime = new Setting<>("AttackBaseTime", 0.5f, 0f, 2f).addToGroup(advanced);
-    public final Setting<Integer> attackTickLimit = new Setting<>("AttackTickLimit", 11, 0, 20).addToGroup(advanced);
+    public final Setting<Float> attackCooldown = new Setting<>("AttackCooldown", 0.8f, 0.5f, 1f).addToGroup(advanced);
+    public final Setting<Float> attackBaseTime = new Setting<>("AttackBaseTime", 0.4f, 0f, 2f).addToGroup(advanced);
+    public final Setting<Integer> attackTickLimit = new Setting<>("AttackTickLimit", 7, 0, 20).addToGroup(advanced);
     public final Setting<Float> critFallDistance = new Setting<>("CritFallDistance", 0f, 0f, 1f).addToGroup(advanced);
 
 
@@ -535,8 +535,22 @@ public class Aura extends Module {
         float delta_yaw = wrapDegrees((float) wrapDegrees(Math.toDegrees(Math.atan2(targetVec.z - mc.player.getZ(), (targetVec.x - mc.player.getX()))) - 90) - rotationYaw) + (wallsBypass.is(WallsBypass.V2) && !ready && !mc.player.canSee(target) ? 20 : 0);
         float delta_pitch = ((float) (-Math.toDegrees(Math.atan2(targetVec.y - (mc.player.getPos().y + mc.player.getEyeHeight(mc.player.getPose())), Math.sqrt(Math.pow((targetVec.x - mc.player.getX()), 2) + Math.pow(targetVec.z - mc.player.getZ(), 2))))) - rotationPitch);
 
-        float yawStep = rotationMode.getValue() != Mode.Track ? 360f : random(minYawStep.getValue(), maxYawStep.getValue());
-        float pitchStep = rotationMode.getValue() != Mode.Track ? 180f : Managers.PLAYER.ticksElytraFlying > 5 ? 180 : (pitchAcceleration + random(-1f, 1f));
+        float yawStep;
+        float pitchStep;
+        if (rotationMode.getValue() == Mode.Vega) {
+            // Vegaline-style flick: snap most of the remaining yaw delta in
+            // one tick with a touch of jitter, then ease pitch in slower
+            // for a believable arc.
+            float absDelta = MathHelper.abs(delta_yaw);
+            yawStep = Math.min(absDelta, absDelta * 0.85f + random(-2.5f, 2.5f));
+            pitchStep = Managers.PLAYER.ticksElytraFlying > 5 ? 180 : (pitchAcceleration * 1.4f + random(-0.5f, 0.5f));
+        } else if (rotationMode.getValue() == Mode.Track) {
+            yawStep = random(minYawStep.getValue(), maxYawStep.getValue());
+            pitchStep = Managers.PLAYER.ticksElytraFlying > 5 ? 180 : (pitchAcceleration + random(-1f, 1f));
+        } else {
+            yawStep = 360f;
+            pitchStep = 180f;
+        }
 
         if (ready)
             switch (accelerateOnHit.getValue()) {
@@ -560,7 +574,7 @@ public class Aura extends Module {
 
         double gcdFix = (Math.pow(mc.options.getMouseSensitivity().getValue() * 0.6 + 0.2, 3.0)) * 1.2;
 
-        if (trackticks > 0 || rotationMode.getValue() == Mode.Track) {
+        if (trackticks > 0 || rotationMode.getValue() == Mode.Track || rotationMode.getValue() == Mode.Vega) {
             rotationYaw = (float) (newYaw - (newYaw - rotationYaw) % gcdFix);
             rotationPitch = (float) (newPitch - (newPitch - rotationPitch) % gcdFix);
         } else {
@@ -603,7 +617,7 @@ public class Aura extends Module {
         dst += aimRange.getValue();
         if ((mc.player.isFallFlying() || ModuleManager.elytraPlus.isEnabled()) && target != null) dst += 4f;
         if (ModuleManager.strafe.isEnabled()) dst += 4f;
-        if (rotationMode.getValue() != Mode.Track || rayTrace.getValue() == RayTrace.OFF)
+        if ((rotationMode.getValue() != Mode.Track && rotationMode.getValue() != Mode.Vega) || rayTrace.getValue() == RayTrace.OFF)
             dst = getRange();
 
         return dst * dst;
@@ -899,7 +913,7 @@ public class Aura extends Module {
     }
 
     public enum Mode {
-        Interact, Track, Grim, None
+        Interact, Track, Vega, Grim, None
     }
 
     public enum AttackHand {

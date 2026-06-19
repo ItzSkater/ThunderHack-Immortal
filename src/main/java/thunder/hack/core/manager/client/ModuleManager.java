@@ -258,6 +258,12 @@ public class ModuleManager implements IManager {
     public static Step step = new Step();
     public static Aura aura = new Aura();
     public static NeuralAura neuralAura = new NeuralAura();
+    public static TargetTP targetTP = new TargetTP();
+    public static VClip vClip = new VClip();
+    public static AirJump airJump = new AirJump();
+    public static AirStuck airStuck = new AirStuck();
+    public static HighJump highJump = new HighJump();
+    public static PhantomDash phantomDash = new PhantomDash();
     public static FOV fov = new FOV();
     public static ESP esp = new ESP();
     public static RPC rpc = new RPC();

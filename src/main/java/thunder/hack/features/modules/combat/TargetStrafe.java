@@ -22,7 +22,9 @@ import static thunder.hack.utility.player.MovementUtility.isMoving;
 
 public class TargetStrafe extends Module {
     public Setting<Boolean> jump = new Setting<>("Jump", true);
+    public Setting<Boolean> fast = new Setting<>("Fast", false);
     public Setting<Float> distance = new Setting<>("Distance", 1.3F, 0.2F, 7f);
+    public Setting<Float> fastSpeedMultiplier = new Setting<>("FastMultiplier", 2.0F, 1.1F, 4.0F, v -> fast.getValue());
 
     private final Setting<Boost> boost = new Setting<>("Boost", Boost.None);
     public Setting<Float> setSpeed = new Setting<>("speed", 1.3F, 0.0F, 2f, v -> boost.getValue() == Boost.Elytra);
@@ -185,6 +187,7 @@ public class TargetStrafe extends Module {
         if (canStrafe()) {
             if (Aura.target != null && ModuleManager.aura.isEnabled()) {
                 double speed = calculateSpeed(event);
+                if (fast.getValue()) speed *= fastSpeedMultiplier.getValue();
 
                 double wrap = Math.atan2(mc.player.getZ() - Aura.target.getZ(), mc.player.getX() - Aura.target.getX());
                 wrap += switchDir ? speed / Math.sqrt(mc.player.squaredDistanceTo(Aura.target)) : -(speed / Math.sqrt(mc.player.squaredDistanceTo(Aura.target)));
