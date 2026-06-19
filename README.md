@@ -20,7 +20,7 @@ features ported from other clients.
   smoothing. Built on DJL + PyTorch and ships the original LB `.params`
   weights so the network behaves identically.
 - **Aura** — defaults tuned for snappier hits (CPS 11–16, attack tick
-  limit 7) plus a new **Vega** rotation mode: a single-tick flick that
+  limit 7) plus a new custom rotation mode: a single-tick flick that
   consumes ~85% of the remaining yaw delta with jitter, then arcs pitch
   in via the existing acceleration term.
 - **TargetStrafe** — added a **Fast** toggle with `FastMultiplier`
@@ -31,7 +31,7 @@ features ported from other clients.
   (no ender pearls). **Vanilla / weak-anticheat servers only** — Spartan,
   Matrix and Grim will rubber-band you.
 
-### Movement (Vegaline ports)
+### Movement
 - **VClip** — vertical clip on enable (configurable power, auto-disables).
 - **AirJump** — `Vanilla` and `GroundSpoof` modes for mid-air jumps.
 - **AirStuck** — zero velocity and cancel outbound position packets so
@@ -44,7 +44,7 @@ features ported from other clients.
 
 - [ ] Port to Minecraft 1.21.11
 - [ ] Integrate Baritone pathfinding (Meteor/standalone)
-- [ ] Port the rest of the interesting Vegaline modules
+- [ ] Port more movement and utility modules
   (BackTrack, MiniMap, CaveFinder, DeathBox, AntiCrystal, …)
 - [ ] Community-requested features from the original ThunderHack issues
   (Smart Distance KillAura, Grim velocity bypass, transparent ArrayList,
@@ -75,5 +75,3 @@ The jar lands in `build/libs/thunderhack-immortal-<version>.jar`.
   — the base client this is forked from.
 - [CCBlueX/LiquidBounce](https://github.com/CCBlueX/LiquidBounce) NextGen —
   Neural KillAura architecture and shipped `.params` weights.
-- Vegaline — source of the movement port ideas (VClip, AirJump, AirStuck,
-  HighJump, PhantomDash) and the Vega rotation pattern.
