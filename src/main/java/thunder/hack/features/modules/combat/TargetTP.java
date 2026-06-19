@@ -1,7 +1,7 @@
 package thunder.hack.features.modules.combat;
 
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -47,7 +47,7 @@ public final class TargetTP extends Module {
     public void onSync(EventSync event) {
         if (mc.player == null || mc.world == null) return;
 
-        LivingEntity target = Aura.target;
+        Entity target = Aura.target;
         if (target == null) return;
         if (requireAura.getValue() && !ModuleManager.aura.isEnabled()) return;
         if (onlyWhenAttacking.getValue() && !ModuleManager.aura.isEnabled()) return;
@@ -62,7 +62,7 @@ public final class TargetTP extends Module {
         tpTimer.reset();
     }
 
-    private Vec3d pickDestination(LivingEntity target) {
+    private Vec3d pickDestination(Entity target) {
         double r = radius.getValue();
         double centerX = target.getX();
         double centerY = target.getY() + heightOffset.getValue();
