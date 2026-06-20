@@ -25,7 +25,7 @@ public class ThunderHack implements ModInitializer {
 
     public static final String MOD_ID = "thunderhack";
     public static final String NAME = "ThunderHack-Immortal";
-    public static final String VERSION = "0.1-beta";
+    public static final String VERSION = "0.2-rc";
     public static String GITHUB_HASH = "0";
     public static String BUILD_DATE = "1 Jan 1970";
 

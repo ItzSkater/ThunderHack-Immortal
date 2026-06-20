@@ -257,7 +257,6 @@ public class ModuleManager implements IManager {
     public static XRay xray = new XRay();
     public static Step step = new Step();
     public static Aura aura = new Aura();
-    public static NeuralAura neuralAura = new NeuralAura();
     public static TargetTP targetTP = new TargetTP();
     public static AntiKnockback antiKnockback = new AntiKnockback();
     public static BackTrack backTrack = new BackTrack();

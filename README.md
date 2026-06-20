@@ -16,22 +16,21 @@ features ported from other clients.
 ## What's new in Immortal
 
 ### Combat
-- **Neural KillAura** — port of LiquidBounce NextGen's MLP-based aim
-  smoothing. Built on DJL + PyTorch and ships the original LB `.params`
-  weights so the network behaves identically.
 - **Aura** — defaults tuned for snappier hits (CPS 11–16, attack tick
-  limit 7) plus a new custom rotation mode: a single-tick flick that
-  consumes ~85% of the remaining yaw delta with jitter, then arcs pitch
-  in via the existing acceleration term.
+  limit 7) with **FunTime** and **Vega** rotation modes for smooth,
+  humanised aim.
+- **BackTrack** — records previous entity positions so Aura can hit
+  where the target *was*, extending effective reach.
+- **AntiKnockback** — cancel, reduce or vanilla-reset incoming knockback
+  velocity, explosions and fishing hooks.
 - **TargetStrafe** — added a **Fast** toggle with `FastMultiplier`
   (1.1–4×) on the strafe speed for blink-style orbiting.
 - **TargetTP** — burst-teleports the player around `Aura.target` at up
   to 60 tp/s with configurable spoof packets, leaving Aura to own
-  targeting/attacks. Built on `ClickTP`'s `PositionAndOnGround` pattern
-  (no ender pearls). **Vanilla / weak-anticheat servers only** — Spartan,
-  Matrix and Grim will rubber-band you.
+  targeting/attacks. **Vanilla / weak-anticheat servers only**.
 
 ### Movement
+- **JesusSpeed** — walk on water with Solid, NCP or Vanilla modes.
 - **VClip** — vertical clip on enable (configurable power, auto-disables).
 - **AirJump** — `Vanilla` and `GroundSpoof` modes for mid-air jumps.
 - **AirStuck** — zero velocity and cancel outbound position packets so
@@ -45,7 +44,7 @@ features ported from other clients.
 - [ ] Port to Minecraft 1.21.11
 - [ ] Integrate Baritone pathfinding (Meteor/standalone)
 - [ ] Port more movement and utility modules
-  (BackTrack, MiniMap, CaveFinder, DeathBox, AntiCrystal, …)
+  (MiniMap, CaveFinder, DeathBox, AntiCrystal, …)
 - [ ] Community-requested features from the original ThunderHack issues
   (Smart Distance KillAura, Grim velocity bypass, transparent ArrayList,
   Auto-Totem improvements, …)
@@ -73,5 +72,3 @@ The jar lands in `build/libs/thunderhack-immortal-<version>.jar`.
 
 - [Pan4ur/ThunderHack-Recode](https://github.com/Pan4ur/ThunderHack-Recode)
   — the base client this is forked from.
-- [CCBlueX/LiquidBounce](https://github.com/CCBlueX/LiquidBounce) NextGen —
-  Neural KillAura architecture and shipped `.params` weights.

@@ -53,12 +53,6 @@ dependencies {
 	libImpl("io.netty:netty-handler-proxy:${project.netty_version}") { transitive = false }
 	libImpl("io.netty:netty-codec-socks:${project.netty_version}") { transitive = false }
 
-	// Deep Java Library — backbone of the neural KillAura ported from LiquidBounce NextGen.
-	// pytorch-engine pulls the right native CPU build at runtime via pytorch-native-auto.
-	libImpl("ai.djl:api:${project.djl_version}")
-	libImpl("ai.djl.pytorch:pytorch-engine:${project.djl_version}")
-	libImpl("ai.djl.pytorch:pytorch-jni:2.4.0-${project.djl_version}")
-
 	configurations.libImpl.dependencies.each {
 		implementation(it)
 	}

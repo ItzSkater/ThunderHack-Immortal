@@ -4,7 +4,7 @@
   "version": "${version}",
   "icon": "icon.png",
   "name": "ThunderHack-Immortal",
-  "description": "ThunderHack-Immortal — a fork of ThunderHack with neural KillAura (LiquidBounce NextGen) and Baritone, configs compatible with original ThunderHack.",
+  "description": "ThunderHack-Immortal — a fork of ThunderHack with extra combat and movement modules, configs compatible with original ThunderHack.",
   "authors": [
     {
       "name": "ItzSkater (Immortal fork)"
@@ -20,9 +20,6 @@
       "contact": {
         "discord": "dinner_enjoyer"
       }
-    },
-    {
-      "name": "CCBlueX (LiquidBounce NextGen — neural KillAura origin)"
     }
   ],
   "license": "GNU General Public License v3.0",
