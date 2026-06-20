@@ -537,10 +537,16 @@ public class Aura extends Module {
 
         float yawStep;
         float pitchStep;
-        if (rotationMode.getValue() == Mode.Vega) {
-            // Vegaline-style flick: snap most of the remaining yaw delta in
-            // one tick with a touch of jitter, then ease pitch in slower
-            // for a believable arc.
+        if (rotationMode.getValue() == Mode.FunTime) {
+            float totalDelta = (float) Math.hypot(delta_yaw, delta_pitch);
+            if (totalDelta > 0.01f) {
+                yawStep = Math.abs(delta_yaw / totalDelta) * 130.0f * 0.85f;
+                pitchStep = Math.abs(delta_pitch / totalDelta) * 130.0f * 0.85f;
+            } else {
+                yawStep = 0;
+                pitchStep = 0;
+            }
+        } else if (rotationMode.getValue() == Mode.Vega) {
             float absDelta = MathHelper.abs(delta_yaw);
             yawStep = Math.min(absDelta, absDelta * 0.85f + random(-2.5f, 2.5f));
             pitchStep = Managers.PLAYER.ticksElytraFlying > 5 ? 180 : (pitchAcceleration * 1.4f + random(-0.5f, 0.5f));
@@ -574,7 +580,7 @@ public class Aura extends Module {
 
         double gcdFix = (Math.pow(mc.options.getMouseSensitivity().getValue() * 0.6 + 0.2, 3.0)) * 1.2;
 
-        if (trackticks > 0 || rotationMode.getValue() == Mode.Track || rotationMode.getValue() == Mode.Vega) {
+        if (trackticks > 0 || rotationMode.getValue() == Mode.Track || rotationMode.getValue() == Mode.Vega || rotationMode.getValue() == Mode.FunTime) {
             rotationYaw = (float) (newYaw - (newYaw - rotationYaw) % gcdFix);
             rotationPitch = (float) (newPitch - (newPitch - rotationPitch) % gcdFix);
         } else {
@@ -617,7 +623,7 @@ public class Aura extends Module {
         dst += aimRange.getValue();
         if ((mc.player.isFallFlying() || ModuleManager.elytraPlus.isEnabled()) && target != null) dst += 4f;
         if (ModuleManager.strafe.isEnabled()) dst += 4f;
-        if ((rotationMode.getValue() != Mode.Track && rotationMode.getValue() != Mode.Vega) || rayTrace.getValue() == RayTrace.OFF)
+        if ((rotationMode.getValue() != Mode.Track && rotationMode.getValue() != Mode.Vega && rotationMode.getValue() != Mode.FunTime) || rayTrace.getValue() == RayTrace.OFF)
             dst = getRange();
 
         return dst * dst;
@@ -913,7 +919,7 @@ public class Aura extends Module {
     }
 
     public enum Mode {
-        Interact, Track, Vega, Grim, None
+        Interact, Track, Vega, FunTime, Grim, None
     }
 
     public enum AttackHand {
