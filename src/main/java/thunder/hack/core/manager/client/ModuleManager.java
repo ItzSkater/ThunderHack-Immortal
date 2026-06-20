@@ -269,12 +269,6 @@ public class ModuleManager implements IManager {
     public static FOV fov = new FOV();
     public static ESP esp = new ESP();
     public static RPC rpc = new RPC();
-    public static thunder.hack.features.modules.crash.BundleCrash bundleCrash = new thunder.hack.features.modules.crash.BundleCrash();
-    public static thunder.hack.features.modules.crash.CMIForceOp cmiForceOp = new thunder.hack.features.modules.crash.CMIForceOp();
-    public static thunder.hack.features.modules.crash.Completer completer = new thunder.hack.features.modules.crash.Completer();
-    public static thunder.hack.features.modules.crash.MultiverseCrash multiverseCrash = new thunder.hack.features.modules.crash.MultiverseCrash();
-    public static thunder.hack.features.modules.crash.WorldEditConvex worldEditConvex = new thunder.hack.features.modules.crash.WorldEditConvex();
-    public static thunder.hack.features.modules.crash.WorldEditCrash worldEditCrash = new thunder.hack.features.modules.crash.WorldEditCrash();
 
     public ModuleManager() {
         for (Field field : getClass().getDeclaredFields()) {
