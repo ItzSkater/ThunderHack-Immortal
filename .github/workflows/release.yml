@@ -67,5 +67,3 @@ jobs:
           tag_name: ${{ steps.ref.outputs.tag }}
           files: ./build/libs/*.jar
           fail_on_unmatched_files: true
-          body: ""
-          append_body: false
