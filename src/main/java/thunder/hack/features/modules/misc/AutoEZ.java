@@ -23,7 +23,7 @@ public final class AutoEZ extends Module {
     public Setting<Boolean> global = new Setting<>("global", true);
 
     String[] EZ = new String[]{
-            "%player% АНБРЕЙН ГЕТАЙ ТХ РЕКОД",
+            "%player% АНБРЕЙН ГЕТАЙ ТХ ИММОРТАЛ",
             "%player% ТВОЯ МАТЬ БУДЕТ СЛЕДУЮЩЕЙ))))",
             "%player% БИЧАРА БЕЗ ТХ",
             "%player% ЧЕ ТАК БЫСТРО СЛИЛСЯ ТО А?",
