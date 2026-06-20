@@ -259,6 +259,9 @@ public class ModuleManager implements IManager {
     public static Aura aura = new Aura();
     public static NeuralAura neuralAura = new NeuralAura();
     public static TargetTP targetTP = new TargetTP();
+    public static AntiKnockback antiKnockback = new AntiKnockback();
+    public static BackTrack backTrack = new BackTrack();
+    public static JesusSpeed jesusSpeed = new JesusSpeed();
     public static VClip vClip = new VClip();
     public static AirJump airJump = new AirJump();
     public static AirStuck airStuck = new AirStuck();

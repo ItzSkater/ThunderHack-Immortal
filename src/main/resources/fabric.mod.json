@@ -4,7 +4,7 @@
   "version": "${version}",
   "icon": "icon.png",
   "name": "ThunderHack-Immortal",
-  "description": "ThunderHack-Recode fork with neural KillAura (LiquidBounce NextGen) and Baritone, configs compatible with original ThunderHack.",
+  "description": "ThunderHack-Immortal — a fork of ThunderHack with neural KillAura (LiquidBounce NextGen) and Baritone, configs compatible with original ThunderHack.",
   "authors": [
     {
       "name": "ItzSkater (Immortal fork)"
