@@ -27,8 +27,8 @@ import static thunder.hack.core.manager.client.ConfigManager.IMAGES_FOLDER;
 import static thunder.hack.features.modules.Module.mc;
 
 public final class ThunderUtility {
-    public static List<String> changeLog = new ArrayList<>();
-    public static List<String> starGazer = new ArrayList<>();
+    public static List<String> changeLog = new java.util.concurrent.CopyOnWriteArrayList<>();
+    public static List<String> starGazer = new java.util.concurrent.CopyOnWriteArrayList<>();
 
     public static @NotNull String getAuthors() {
         List<String> names = ThunderHack.MOD_META.getAuthors()
