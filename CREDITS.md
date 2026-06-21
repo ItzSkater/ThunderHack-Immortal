@@ -1,12 +1,16 @@
 # Credits
 
-## Crash Modules
+## Base
 
-Crash modules ported from open-source projects:
+- **ThunderHack-Recode** (GPL-3.0)
+  - https://github.com/Pan4ur/ThunderHack-Recode
+  - Основа клиента
+
+## Crash Modules
 
 - **AntiCope/meteor-crash-addon** (MIT License)
   - https://github.com/AntiCope/meteor-crash-addon
-  - AACCrash, BookCrash, ContainerCrash, CompletionCrash, CreativeCrash, EntityCrash, MovementCrash, PacketSpammer, SequenceCrash, WindowCrash, ErrorCrash, InteractCrash, LecternCrash, MessageLagger
+  - AACCrash, BookCrash, ContainerCrash, CreativeCrash, EntityCrash, MovementCrash, PacketSpammer, SequenceCrash, WindowCrash, ErrorCrash, InteractCrash, LecternCrash, MessageLagger
 
 - **HackVogel/meteor-crash-addon** (MIT License)
   - https://github.com/HackVogel/meteor-crash-addon
