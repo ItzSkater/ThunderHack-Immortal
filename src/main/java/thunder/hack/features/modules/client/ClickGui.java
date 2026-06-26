@@ -30,6 +30,7 @@ public class ClickGui extends Module {
     public static Setting<Float> gearDuration = new Setting<>("GearDuration", 0.5f, 0.1f, 2f).addToGroup(gear);
     public static Setting<Integer> gearStop = new Setting<>("GearStop", 25, 10, 45).addToGroup(gear);
     public final Setting<Boolean> closeAnimation = new Setting<>("CloseAnimation", true);
+    public final Setting<Style> style = new Setting<>("Style", Style.Classic);
 
     public ClickGui() {
         super("ClickGui", Module.Category.CLIENT);
@@ -99,6 +100,10 @@ public class ClickGui extends Module {
         UpsideDown,
         LeftToRight,
         both
+    }
+
+    public enum Style {
+        Classic, LiquidGlass
     }
 
     public enum Image {

@@ -553,6 +553,15 @@ public class Aura extends Module {
         } else if (rotationMode.getValue() == Mode.Track) {
             yawStep = random(minYawStep.getValue(), maxYawStep.getValue());
             pitchStep = Managers.PLAYER.ticksElytraFlying > 5 ? 180 : (pitchAcceleration + random(-1f, 1f));
+        } else if (rotationMode.getValue() == Mode.HolyWorld) {
+            yawStep = random(28f, 43f);
+            pitchStep = Managers.PLAYER.ticksElytraFlying > 5 ? 180 : random(16f, 25f);
+        } else if (rotationMode.getValue() == Mode.SpookiTime) {
+            yawStep = random(17f, 31f);
+            pitchStep = Managers.PLAYER.ticksElytraFlying > 5 ? 180 : random(10f, 19f);
+        } else if (rotationMode.getValue() == Mode.ReallyWorld) {
+            yawStep = random(38f, 56f);
+            pitchStep = Managers.PLAYER.ticksElytraFlying > 5 ? 180 : random(22f, 36f);
         } else {
             yawStep = 360f;
             pitchStep = 180f;
@@ -580,7 +589,8 @@ public class Aura extends Module {
 
         double gcdFix = (Math.pow(mc.options.getMouseSensitivity().getValue() * 0.6 + 0.2, 3.0)) * 1.2;
 
-        if (trackticks > 0 || rotationMode.getValue() == Mode.Track || rotationMode.getValue() == Mode.Vega || rotationMode.getValue() == Mode.FunTime) {
+        if (trackticks > 0 || rotationMode.getValue() == Mode.Track || rotationMode.getValue() == Mode.Vega || rotationMode.getValue() == Mode.FunTime
+                || rotationMode.getValue() == Mode.HolyWorld || rotationMode.getValue() == Mode.SpookiTime || rotationMode.getValue() == Mode.ReallyWorld) {
             rotationYaw = (float) (newYaw - (newYaw - rotationYaw) % gcdFix);
             rotationPitch = (float) (newPitch - (newPitch - rotationPitch) % gcdFix);
         } else {
@@ -623,7 +633,8 @@ public class Aura extends Module {
         dst += aimRange.getValue();
         if ((mc.player.isFallFlying() || ModuleManager.elytraPlus.isEnabled()) && target != null) dst += 4f;
         if (ModuleManager.strafe.isEnabled()) dst += 4f;
-        if ((rotationMode.getValue() != Mode.Track && rotationMode.getValue() != Mode.Vega && rotationMode.getValue() != Mode.FunTime) || rayTrace.getValue() == RayTrace.OFF)
+        if ((rotationMode.getValue() != Mode.Track && rotationMode.getValue() != Mode.Vega && rotationMode.getValue() != Mode.FunTime
+                && rotationMode.getValue() != Mode.HolyWorld && rotationMode.getValue() != Mode.SpookiTime && rotationMode.getValue() != Mode.ReallyWorld) || rayTrace.getValue() == RayTrace.OFF)
             dst = getRange();
 
         return dst * dst;
@@ -919,7 +930,7 @@ public class Aura extends Module {
     }
 
     public enum Mode {
-        Interact, Track, Vega, FunTime, Grim, None
+        Interact, Track, Vega, FunTime, Grim, HolyWorld, SpookiTime, ReallyWorld, None
     }
 
     public enum AttackHand {

@@ -72,8 +72,15 @@ public class Category extends AbstractCategory {
         Color m3 = HudEditor.getColor(180);
         Color m4 = HudEditor.getColor(90);
 
+        boolean isLiquidGlass = ModuleManager.clickGui.style.getValue() == ClickGui.Style.LiquidGlass;
+
         if (isOpen()) {
-            Render2DEngine.drawHudBase(context.getMatrices(), getX() + 3, getY() + height - 6, width - 6, catHeight, 1, false);
+            if (isLiquidGlass) {
+                Render2DEngine.drawRoundedBlur(context.getMatrices(), getX() + 3, getY() + height - 6, width - 6, catHeight, 4f, new Color(200, 220, 255, 50), 10f, 0.72f);
+                Render2DEngine.drawRound(context.getMatrices(), getX() + 3, getY() + height - 6, width - 6, catHeight, 4f, new Color(255, 255, 255, 30));
+            } else {
+                Render2DEngine.drawHudBase(context.getMatrices(), getX() + 3, getY() + height - 6, width - 6, catHeight, 1, false);
+            }
 
             if (!(ModuleManager.clickGui.scrollMode.getValue() == ClickGui.scrollModeEn.Old || getButtonsHeight() < ModuleManager.clickGui.catHeight.getValue())) {
                 Render2DEngine.addWindow(context.getMatrices(), getX() + 3, getY() + height - 6, getX() + 3 + width - 6, (getY() + height - 6) + (float) ((ModuleManager.clickGui.catHeight.getValue())), 1f);
@@ -101,7 +108,12 @@ public class Category extends AbstractCategory {
         if (popStack)
             Render2DEngine.popWindow();
 
-        Render2DEngine.drawHudBase(context.getMatrices(), getX() + 2, getY() - 5, width - 4, height, 1, false);
+        if (isLiquidGlass) {
+            Render2DEngine.drawRoundedBlur(context.getMatrices(), getX() + 2, getY() - 5, width - 4, height, 4f, new Color(180, 210, 255, 70), 10f, 0.78f);
+            Render2DEngine.drawRound(context.getMatrices(), getX() + 2, getY() - 5, width - 4, height, 4f, new Color(255, 255, 255, 45));
+        } else {
+            Render2DEngine.drawHudBase(context.getMatrices(), getX() + 2, getY() - 5, width - 4, height, 1, false);
+        }
 
         {
             RenderSystem.setShaderTexture(0, ICON);

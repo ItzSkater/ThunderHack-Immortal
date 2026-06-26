@@ -181,10 +181,19 @@ public class ModuleButton extends AbstractButton {
 
         category_animation = fast(category_animation, offsetY, 20);
 
-        if (animation < 0.05)
+        if (ModuleManager.clickGui.style.getValue() == ClickGui.Style.LiquidGlass) {
+            if (animation < 0.05) {
+                if (hovered)
+                    Render2DEngine.drawRound(context.getMatrices(), x + 4f, y + 1f, width - 8, height - 2, 2f, new Color(255, 255, 255, 25));
+            } else {
+                Render2DEngine.drawRound(context.getMatrices(), x + 4f, y + 1f, width - 8, height - 2, 2f,
+                        new Color(200, 220, 255, (int) Math.min(animation * 90, 90)));
+                Render2DEngine.drawRound(context.getMatrices(), x + 4f, y + 1f, width - 8, height - 2, 2f,
+                        new Color(255, 255, 255, (int) Math.min(animation * 40, 40)));
+            }
+        } else if (animation < 0.05) {
             Render2DEngine.drawRect(context.getMatrices(), x + 4f, y + 1f, width - 8, height - 2, Render2DEngine.applyOpacity(HudEditor.plateColor.getValue().getColorObject().darker(), 0.15f));
-        else {
-
+        } else {
             switch (ModuleManager.clickGui.gradientMode.getValue()) {
                 case both -> {
                     Render2DEngine.draw2DGradientRect(context.getMatrices(), x + 4, y + 1f, x + 4 + width - 8, y + 1f + height - 2,
