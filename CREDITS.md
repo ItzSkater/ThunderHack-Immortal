@@ -15,3 +15,4 @@
 - **HackVogel/meteor-crash-addon** (MIT License)
   - https://github.com/HackVogel/meteor-crash-addon
   - EssentialsCrash, PexCrash, MultiverseCrash (extended methods), CrashItem (Fireball/Skull/Arrow/OOBEgg)
+- Спасибо игроку firrty за лучший конфиг под thunderhack
