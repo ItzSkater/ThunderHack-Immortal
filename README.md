@@ -72,3 +72,4 @@ The jar lands in `build/libs/thunderhack-immortal-<version>.jar`.
 
 - [Pan4ur/ThunderHack-Recode](https://github.com/Pan4ur/ThunderHack-Recode)
   — the base client this is forked from.
+-Special thanks to firrty from EnvyWorld for creating and sharing the best ThunderHack configuration. His config has been tested extensively on EnvyWorld and provides an excellent gameplay experience out of the box. 
