@@ -206,6 +206,7 @@ public class ModuleManager implements IManager {
     public static Tracker tracker = new Tracker();
     public static TpsSync tpsSync = new TpsSync();
     public static Spammer spammer = new Spammer();
+    public static Mesh mesh = new Mesh();
     public static Shaders shaders = new Shaders();
     public static PingHud pingHud = new PingHud();
     public static ItemESP itemESP = new ItemESP();

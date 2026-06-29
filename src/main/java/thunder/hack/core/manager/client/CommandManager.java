@@ -43,6 +43,8 @@ public class CommandManager implements IManager {
         add(new PrefixCommand());
         add(new TrackerCommand());
         add(new GamemodeCommand());
+        add(new MeshChatCommand());
+        add(new MeshCoordsCommand());
         add(new DropAllCommand());
         add(new TreasureCommand());
         add(new WayPointCommand());
