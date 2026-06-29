@@ -31,6 +31,7 @@ public class ModuleManager implements IManager {
     public List<Integer> activeMouseKeys = new ArrayList<>();
 
     public static PenisESP penisESP = new PenisESP();
+    public static PenisSync penisSync = new PenisSync();
     public static AntiPacketException antiPacketException = new AntiPacketException();
     public static LevitationControl levitationControl = new LevitationControl();
     public static InventoryCleaner inventoryCleaner = new InventoryCleaner();
