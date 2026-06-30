@@ -78,13 +78,21 @@ cargo tauri icon app-icon.png
 ### Linux: `EGL_BAD_PARAMETER. Aborting...` / серое окно
 
 Известный баг WebKitGTK 2.40+ на Wayland с некоторыми GPU-конфигами.
-Лаунчер уже выставляет нужные переменные сам, но если запускаешь старую
-сборку или столкнулся повторно — запусти вручную:
+Лаунчер уже выставляет `GDK_BACKEND=x11`, `WEBKIT_DISABLE_DMABUF_RENDERER=1`,
+`WEBKIT_DISABLE_COMPOSITING_MODE=1`, но если столкнулся на старой сборке или
+EGL всё равно не идёт — запусти вручную:
 
 ```bash
+GDK_BACKEND=x11 \
 WEBKIT_DISABLE_DMABUF_RENDERER=1 \
 WEBKIT_DISABLE_COMPOSITING_MODE=1 \
 ./THI.Launcher_*.AppImage
+```
+
+Если и это не помогло — добавь программный GL (медленнее, но всегда работает):
+
+```bash
+LIBGL_ALWAYS_SOFTWARE=1 GDK_BACKEND=x11 ./THI.Launcher_*.AppImage
 ```
 
 ## Релизный workflow (CI)

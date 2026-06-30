@@ -48,17 +48,25 @@ async fn launch_game(app: tauri::AppHandle, cfg: AppConfig) -> Result<(), String
 }
 
 fn main() {
-    // Workaround for WebKitGTK 2.40+ on Wayland / certain GPU drivers where
-    // the DMABUF renderer fails with `EGL_BAD_PARAMETER, Aborting...` and the
-    // WebView never renders. Forcing the legacy renderer avoids this.
-    // Harmless on systems where DMABUF works.
+    // Workarounds for WebKitGTK on Linux failing to initialise EGL ("Could not
+    // create default EGL display: EGL_BAD_PARAMETER, Aborting...") which leaves
+    // a grey window with no rendered content. Affects modern Wayland + WebKitGTK
+    // 2.40+ on many GPU/driver combos. We force a known-good path:
+    //   - run GTK under XWayland instead of native Wayland,
+    //   - disable WebKit's DMABUF / compositing renderers,
+    //   - leave LIBGL_ALWAYS_SOFTWARE alone (the user can opt in if EGL still
+    //     refuses on truly broken GL stacks).
+    // Each env var is only set if the user didn't override it.
     #[cfg(target_os = "linux")]
     {
-        if std::env::var_os("WEBKIT_DISABLE_DMABUF_RENDERER").is_none() {
-            std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
-        }
-        if std::env::var_os("WEBKIT_DISABLE_COMPOSITING_MODE").is_none() {
-            std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
+        for (k, v) in [
+            ("GDK_BACKEND", "x11"),
+            ("WEBKIT_DISABLE_DMABUF_RENDERER", "1"),
+            ("WEBKIT_DISABLE_COMPOSITING_MODE", "1"),
+        ] {
+            if std::env::var_os(k).is_none() {
+                std::env::set_var(k, v);
+            }
         }
     }
 
