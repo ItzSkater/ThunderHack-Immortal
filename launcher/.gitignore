@@ -1,0 +1,12 @@
+# Rust / Tauri build output
+src-tauri/target/
+src-tauri/gen/
+
+# Tauri generated icons (keep your source icons, ignore generated if any)
+# (uncomment if you generate them in CI)
+# src-tauri/icons/
+
+# OS / editor
+.DS_Store
+*.log
+node_modules/

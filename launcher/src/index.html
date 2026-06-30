@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THI Launcher</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="launcher" id="launcher">
+  <div class="close-overlay" id="closeOverlay">
+    <p>Закрыть лаунчер?</p>
+    <div class="close-btns">
+      <button class="btn-yes" id="closeYes">Да</button>
+      <button class="btn-no" id="closeNo">Нет</button>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="logo">
+      <h1>THI</h1>
+      <span>Fabric 1.21</span>
+    </div>
+    <div class="nav" id="nav">
+      <div class="nav-item active" data-page="home"><div class="nav-icon">▶</div> Главная</div>
+      <div class="nav-item" data-page="modules"><div class="nav-icon">◆</div> Модули</div>
+      <div class="nav-item" data-page="updates"><div class="nav-icon">↓</div> Обновления</div>
+      <div class="nav-item" data-page="settings"><div class="nav-icon">⚙</div> Настройки</div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar" id="avatarLetter">P</div>
+        <div>
+          <div class="user-name" id="displayName">Player</div>
+          <div class="user-status">offline</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="titlebar" data-tauri-drag-region>
+      <h2 data-tauri-drag-region>Thunderhack - Immortal 1.21</h2>
+      <div class="window-controls">
+        <div class="win-btn minimize" id="winMin"></div>
+        <div class="win-btn maximize"></div>
+        <div class="win-btn close" id="winClose"></div>
+      </div>
+    </div>
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="banner">
+        <div class="banner-version" id="bannerVer">v1.2</div>
+        <div class="banner-text">THUNDERHACK<small>I M M O R T A L</small></div>
+      </div>
+      <div class="settings-row">
+        <div class="setting-field">
+          <label>Ник</label>
+          <input type="text" id="nickInput" value="Player" spellcheck="false">
+        </div>
+        <div class="setting-field">
+          <label>RAM</label>
+          <select id="ramSelect">
+            <option value="2048">2 GB</option><option value="3072">3 GB</option>
+            <option value="4096" selected>4 GB</option><option value="6144">6 GB</option><option value="8192">8 GB</option>
+          </select>
+        </div>
+        <div class="setting-field">
+          <label>Java</label>
+          <select id="javaSelect">
+            <option value="">Авто (Temurin 21)</option>
+            <option value="java21">Java 21</option><option value="java17">Java 17</option>
+          </select>
+        </div>
+      </div>
+      <div class="status-line" id="statusLine"></div>
+      <div class="bottom">
+        <button class="btn-launch" id="launchBtn">Запустить</button>
+        <button class="btn-settings" id="gotoSettings">⚙</button>
+      </div>
+    </div>
+
+    <!-- MODULES -->
+    <div class="page" id="page-modules">
+      <div class="page-title">Категории модулей</div>
+      <div class="modules-grid" id="modulesGrid"></div>
+    </div>
+
+    <!-- UPDATES -->
+    <div class="page" id="page-updates">
+      <div class="page-title">Обновления</div>
+      <div id="updatesList"><div class="update-desc">Загрузка...</div></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="page" id="page-settings">
+      <div class="page-title">Настройки</div>
+      <div class="settings-grid">
+        <div class="settings-section">
+          <h3>Игра</h3>
+          <div class="settings-fields">
+            <div class="s-field">
+              <label>Директория</label>
+              <input type="text" id="gameDir" placeholder="~/.thi/instance" spellcheck="false">
+            </div>
+            <div class="s-field">
+              <label>Java путь</label>
+              <input type="text" id="javaPath" placeholder="авто" spellcheck="false">
+            </div>
+            <div class="s-field">
+              <label>JVM аргументы</label>
+              <input type="text" id="jvmArgs" spellcheck="false">
+            </div>
+            <div class="s-field">
+              <label>Fabric loader</label>
+              <input type="text" id="fabricLoader" placeholder="latest" spellcheck="false">
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>Лаунчер</h3>
+          <div class="settings-fields">
+            <div class="s-field toggle-row">
+              <label>Закрывать при запуске</label>
+              <div class="toggle on" id="tgClose"></div>
+            </div>
+            <div class="s-field toggle-row">
+              <label>Автообновление мода</label>
+              <div class="toggle on" id="tgAuto"></div>
+            </div>
+            <div class="s-field toggle-row">
+              <label>Fullscreen</label>
+              <div class="toggle" id="tgFull"></div>
+            </div>
+            <div class="s-field">
+              <label>Разрешение</label>
+              <select id="resSelect">
+                <option>1920x1080</option><option>2560x1440</option><option>3440x1440</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span><span class="status-dot"></span><span id="barStatus">Готов к запуску</span></span>
+    <span>Fabric 1.21 · THI <span id="barVer">v1.2</span></span>
+    <span style="margin-left: auto;">~240 модулей</span>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

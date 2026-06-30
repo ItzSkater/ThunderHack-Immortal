@@ -1,0 +1,85 @@
+# THI Launcher
+
+Лаунчер ThunderHack-Immortal на **Tauri (Rust)** под **Windows** и **Arch Linux**.
+Бэкенд запуска Minecraft — библиотека [`lighty-launcher`](https://github.com/Lighty-Launcher/LightyLauncherLib)
+(Fabric, авто-Java, кросс-платформа). UI повторяет мокап (тёмно-золотая тема).
+
+## Возможности
+
+- Оффлайн-вход по нику (cracked), как в мокапе — одно поле «Ник»
+- Выбор RAM / Java / JVM-аргументов / директории / Fabric loader
+- Авто-загрузка мода THI из GitHub Releases (`ItzSkater/ThunderHack-Immortal`)
+- Вкладка «Обновления» тянет реальные релизы с GitHub
+- Безрамочное окно с кастомными кнопками (как в макете)
+- Настройки сохраняются в конфиг ОС
+
+## Структура
+
+```
+launcher/
+├── src/                  # фронтенд (статика, без сборщика)
+│   ├── index.html
+│   ├── styles.css
+│   └── main.js           # связь с бэкендом через window.__TAURI__
+└── src-tauri/            # бэкенд на Rust
+    ├── Cargo.toml
+    ├── tauri.conf.json
+    ├── build.rs
+    ├── capabilities/default.json
+    └── src/
+        ├── main.rs       # Tauri-команды
+        ├── config.rs     # сохранение настроек
+        ├── updates.rs    # GitHub releases + загрузка мода
+        └── launch.rs     # интеграция с lighty-launcher
+```
+
+## Предварительные требования
+
+- **Rust** (stable) — https://rustup.rs
+- **Tauri CLI**: `cargo install tauri-cli --version "^2"`
+- **Windows**: WebView2 (обычно уже есть), MSVC build tools
+- **Arch**: `sudo pacman -S webkit2gtk-4.1 base-devel curl wget file openssl appmenu-gtk-module libappindicator-gtk3 librsvg`
+
+## Запуск (dev)
+
+```bash
+cd launcher
+cargo tauri dev
+```
+
+## Сборка релиза
+
+```bash
+cd launcher
+cargo tauri build
+```
+
+Артефакты:
+- **Windows**: `src-tauri/target/release/bundle/nsis/*-setup.exe`
+- **Arch/Linux**: `src-tauri/target/release/bundle/appimage/*.AppImage` и `deb/*.deb`
+
+> Для Arch можно собрать и нативный пакет — добавь `pacman` в `bundle.targets`
+> в `tauri.conf.json`, либо упакуй AppImage.
+
+## Иконки
+
+Положи иконки в `src-tauri/icons/` (`32x32.png`, `128x128.png`, `icon.ico`,
+`icon.png`). Сгенерировать из одного PNG:
+
+```bash
+cargo tauri icon path/to/logo.png
+```
+
+## Важно про lighty-launcher
+
+Подтверждённый flow запуска (из README библиотеки) реализован в `launch.rs`:
+`AppState::init` → `VersionBuilder::new(.., Loader::Fabric, ..)` →
+`OfflineAuth::new(nick).authenticate()` → `instance.launch(&profile, JavaDistribution::Temurin).run()`.
+
+Продвинутые методы билдера (**RAM, JVM-аргументы, game_dir, разрешение,
+fullscreen**) различаются между версиями либы — в `launch.rs` они оформлены
+отдельным блоком с примерами и закомментированы, чтобы код собирался сразу.
+После `cargo doc -p lighty-launcher --open` подставь точные имена методов и
+раскомментируй — UI уже собирает все эти значения и передаёт их в бэкенд.
+
+Версия либы запинена в `Cargo.toml` (`lighty-launcher = "26.5.12"`).
