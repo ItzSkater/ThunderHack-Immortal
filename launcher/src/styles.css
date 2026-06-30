@@ -1,8 +1,8 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Caveat', cursive;
-  background: transparent;
+  font-family: 'Segoe Script', 'Bradley Hand', 'Comic Sans MS', cursive, sans-serif;
+  background: #141310;
   display: flex;
   align-items: center;
   justify-content: center;

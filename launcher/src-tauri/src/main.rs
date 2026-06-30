@@ -48,6 +48,20 @@ async fn launch_game(app: tauri::AppHandle, cfg: AppConfig) -> Result<(), String
 }
 
 fn main() {
+    // Workaround for WebKitGTK 2.40+ on Wayland / certain GPU drivers where
+    // the DMABUF renderer fails with `EGL_BAD_PARAMETER, Aborting...` and the
+    // WebView never renders. Forcing the legacy renderer avoids this.
+    // Harmless on systems where DMABUF works.
+    #[cfg(target_os = "linux")]
+    {
+        if std::env::var_os("WEBKIT_DISABLE_DMABUF_RENDERER").is_none() {
+            std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
+        }
+        if std::env::var_os("WEBKIT_DISABLE_COMPOSITING_MODE").is_none() {
+            std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
+        }
+    }
+
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_config,

@@ -73,6 +73,20 @@ cargo tauri icon app-icon.png
 
 Чтобы заменить иконку — просто перезапиши `app-icon.png` своим лого и перегенерируй.
 
+## Troubleshooting
+
+### Linux: `EGL_BAD_PARAMETER. Aborting...` / серое окно
+
+Известный баг WebKitGTK 2.40+ на Wayland с некоторыми GPU-конфигами.
+Лаунчер уже выставляет нужные переменные сам, но если запускаешь старую
+сборку или столкнулся повторно — запусти вручную:
+
+```bash
+WEBKIT_DISABLE_DMABUF_RENDERER=1 \
+WEBKIT_DISABLE_COMPOSITING_MODE=1 \
+./THI.Launcher_*.AppImage
+```
+
 ## Релизный workflow (CI)
 
 В `.github/workflows/launcher-release.yml` настроена сборка под **Windows** и
