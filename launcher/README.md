@@ -63,12 +63,28 @@ cargo tauri build
 
 ## Иконки
 
-Положи иконки в `src-tauri/icons/` (`32x32.png`, `128x128.png`, `icon.ico`,
-`icon.png`). Сгенерировать из одного PNG:
+В корне `launcher/` лежит `app-icon.png` (512×512). Полный набор иконок
+(`32x32.png`, `128x128.png`, `icon.ico`, `icon.icns`, …) генерируется один раз:
 
 ```bash
-cargo tauri icon path/to/logo.png
+cd launcher
+cargo tauri icon app-icon.png
 ```
+
+Чтобы заменить иконку — просто перезапиши `app-icon.png` своим лого и перегенерируй.
+
+## Релизный workflow (CI)
+
+В `.github/workflows/launcher-release.yml` настроена сборка под **Windows** и
+**Linux** (`.exe`/`.msi`, `.AppImage`/`.deb`). Триггер — релиз с тегом, начинающимся
+с `launcher-v`. Шаги:
+
+1. На GitHub: **Releases → Draft a new release**, тег вида `launcher-v0.1.0`.
+2. Опубликуй релиз — workflow соберёт артефакты под обе ОС и прикрепит их к нему.
+3. Альтернатива: **Actions → Launcher Release → Run workflow**, указать существующий тег.
+
+Workflow мода (`release.yml`) не пересекается с лаунчерским — он смотрит только
+на теги без префикса `launcher-`.
 
 ## Важно про lighty-launcher
 

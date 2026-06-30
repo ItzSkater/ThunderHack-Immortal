@@ -19,6 +19,8 @@ permissions:
 
 jobs:
   build:
+    # Skip mod build for launcher releases — those are handled by launcher-release.yml.
+    if: github.event_name == 'workflow_dispatch' || !startsWith(github.event.release.tag_name, 'launcher-')
     runs-on: ubuntu-latest
     steps:
       - name: Resolve target ref

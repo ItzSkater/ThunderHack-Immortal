@@ -1,0 +1,140 @@
+name: Launcher Release
+
+# Builds the THI Launcher (Tauri + Rust) for Windows and Linux (Arch-compatible)
+# and attaches the artifacts to a GitHub Release.
+#
+# Trigger:
+#   - Create a release whose tag starts with "launcher-v" (e.g. launcher-v0.1.0)
+#   - OR run manually via "Run workflow" and provide a tag
+
+on:
+  release:
+    types: [created, published, edited]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing release tag to upload the launcher to (e.g. launcher-v0.1.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            label: windows
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            label: linux
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Resolve target ref
+        id: ref
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+            echo "ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+            echo "ref=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Skip this whole matrix when the release tag is not for the launcher.
+      - name: Tag-prefix gate
+        id: gate
+        shell: bash
+        run: |
+          tag="${{ steps.ref.outputs.tag }}"
+          if [[ "$tag" == launcher-v* ]]; then
+            echo "go=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag '$tag' is not a launcher release; skipping"
+            echo "go=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.gate.outputs.go == '1'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.ref.outputs.ref }}
+
+      - name: Install Linux build deps
+        if: steps.gate.outputs.go == '1' && runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            build-essential \
+            curl wget file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
+      - name: Install Rust toolchain
+        if: steps.gate.outputs.go == '1'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache cargo
+        if: steps.gate.outputs.go == '1'
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: launcher/src-tauri -> target
+
+      - name: Install Tauri CLI
+        if: steps.gate.outputs.go == '1'
+        run: cargo install tauri-cli --version "^2" --locked
+
+      # Generate the full icon set (32/128/256 PNG + .ico + .icns) from one source.
+      # Committed source is launcher/app-icon.png.
+      - name: Generate icons
+        if: steps.gate.outputs.go == '1'
+        working-directory: launcher
+        shell: bash
+        run: |
+          mkdir -p src-tauri/icons
+          cargo tauri icon app-icon.png
+
+      - name: Build (Windows)
+        if: steps.gate.outputs.go == '1' && runner.os == 'Windows'
+        working-directory: launcher
+        run: cargo tauri build --target ${{ matrix.target }}
+
+      - name: Build (Linux)
+        if: steps.gate.outputs.go == '1' && runner.os == 'Linux'
+        working-directory: launcher
+        run: cargo tauri build --target ${{ matrix.target }}
+
+      - name: Stage artifacts
+        if: steps.gate.outputs.go == '1'
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          bundle="launcher/src-tauri/target/${{ matrix.target }}/release/bundle"
+          # Copy everything bundlers produced; the release upload step filters by glob.
+          if [ -d "$bundle" ]; then
+            find "$bundle" -type f \( \
+                -name "*.exe" -o -name "*.msi" \
+                -o -name "*.AppImage" -o -name "*.deb" -o -name "*.rpm" \) \
+              -exec cp -v {} artifacts/ \;
+          fi
+          ls -la artifacts/
+
+      - name: Upload to release
+        if: steps.gate.outputs.go == '1'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ref.outputs.tag }}
+          files: artifacts/*
+          fail_on_unmatched_files: true
