@@ -17,6 +17,11 @@ anyhow = "1"
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
 directories = "5"
 
+# Pin `time` so the transitive `cookie 0.18.1` (pulled in via tauri) compiles.
+# `time` >= 0.3.42 changed Parsable::parse to take an Option<Parsed>, which
+# breaks cookie 0.18.1. See: https://github.com/rustsec/advisory-db / cookie-rs.
+time = "=0.3.41"
+
 # Minecraft launching backend (Fabric loader support).
 # Pin to the version you verified; advanced builder methods (memory/jvm args)
 # may differ slightly between releases — check `cargo doc -p lighty-launcher`.

@@ -96,6 +96,14 @@ jobs:
         if: steps.gate.outputs.go == '1'
         run: cargo install tauri-cli --version "^2" --locked
 
+      # Force the `time` crate to a version that's still compatible with the
+      # `cookie 0.18.1` transitive dep that tauri pulls in (newer `time` broke
+      # cookie's Parsable::parse call site -> E0061 at build).
+      - name: Pin time crate
+        if: steps.gate.outputs.go == '1'
+        working-directory: launcher/src-tauri
+        run: cargo update -p time --precise 0.3.41
+
       # Generate the full icon set (32/128/256 PNG + .ico + .icns) from one source.
       # Committed source is launcher/app-icon.png.
       - name: Generate icons
