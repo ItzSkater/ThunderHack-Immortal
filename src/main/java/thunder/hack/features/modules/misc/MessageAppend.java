@@ -15,7 +15,7 @@ public class MessageAppend extends Module {
         super("MessageAppend", Category.MISC);
     }
 
-    private final Setting<String> word = new Setting<>("word", " TH IMMORTAL");
+    private final Setting<String> word = new Setting<>("word", " RACE CLIENT");
     private String skip;
 
     @EventHandler

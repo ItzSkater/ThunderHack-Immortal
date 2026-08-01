@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "THI Launcher",
+  "productName": "Race Client Launcher",
   "version": "0.1.0",
   "identifier": "gg.thi.launcher",
   "build": {
@@ -11,7 +11,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "THI Launcher",
+        "title": "Race Client Launcher",
         "width": 820,
         "height": 540,
         "resizable": false,

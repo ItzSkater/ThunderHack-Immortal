@@ -127,7 +127,7 @@ public final class ThunderUtility {
             URL url = new URL("https://api.github.com/repos/ItzSkater/ThunderHack-Immortal/commits?per_page=50");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
 
-            changeLog.add("Changelog [Immortal; Date: " + ThunderHack.BUILD_DATE + "; GitHash:" + ThunderHack.GITHUB_HASH + "]");
+            changeLog.add("Changelog [Race Client; Date: " + ThunderHack.BUILD_DATE + "; GitHash:" + ThunderHack.GITHUB_HASH + "]");
             changeLog.add("\n");
 
             String inputLine;

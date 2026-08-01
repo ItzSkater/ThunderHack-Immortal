@@ -75,7 +75,7 @@ public class MixinTitleScreen extends Screen {
                         if (confirm) Util.getOperatingSystem().open(URI.create("https://github.com/ItzSkater/ThunderHack-Immortal/releases"));
                         else mc.stop();
                     },
-                    Text.of(Formatting.RED + "You are using an outdated version of ThunderHack-Immortal"), Text.of("Please update to the latest release"), Text.of("Download"), Text.of("Quit Game")));
+                    Text.of(Formatting.RED + "You are using an outdated version of Race Client"), Text.of("Please update to the latest release"), Text.of("Download"), Text.of("Quit Game")));
         }
     }
 }

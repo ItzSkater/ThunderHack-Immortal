@@ -19,10 +19,10 @@ import static thunder.hack.features.modules.client.ClientSettings.isRu;
 
 public final class RPC extends Module {
     private static final DiscordRPC rpc = DiscordRPC.INSTANCE;
-    public static Setting<Mode> mode = new Setting<>("Picture", Mode.Immortal);
+    public static Setting<Mode> mode = new Setting<>("Picture", Mode.Race);
     public static Setting<Boolean> showIP = new Setting<>("ShowIP", true);
     public static Setting<sMode> smode = new Setting<>("StateMode", sMode.Stats);
-    public static Setting<String> state = new Setting<>("State", "ThunderHack Immortal");
+    public static Setting<String> state = new Setting<>("State", "Race Client");
     public static Setting<Boolean> nickname = new Setting<>("Nickname", true);
     public static DiscordRichPresence presence = new DiscordRichPresence();
     public static boolean started;
@@ -112,7 +112,7 @@ public final class RPC extends Module {
                     presence.button_url_1 = "https://github.com/ItzSkater/ThunderHack-Immortal/";
 
                     switch (mode.getValue()) {
-                        case Immortal -> presence.largeImageKey = "https://i.imgur.com/yY0z2Uq.gif";
+                        case Race -> presence.largeImageKey = "https://i.imgur.com/yY0z2Uq.gif";
                         case MegaCute ->
                                 presence.largeImageKey = "https://media1.tenor.com/images/6bcbfcc0be97d029613b54f97845bc59/tenor.gif?itemid=26823781";
                         case Custom -> {
@@ -152,7 +152,7 @@ public final class RPC extends Module {
         return result;
     }
 
-    public enum Mode {Custom, MegaCute, Immortal}
+    public enum Mode {Custom, MegaCute, Race}
 
     public enum sMode {Custom, Stats, Version}
 }

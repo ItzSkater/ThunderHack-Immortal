@@ -78,5 +78,5 @@ fn main() {
             launch_game
         ])
         .run(tauri::generate_context!())
-        .expect("error while running THI launcher");
+        .expect("error while running Race Client launcher");
 }

@@ -1,6 +1,6 @@
-# THI Launcher
+# Race Client Launcher
 
-Лаунчер ThunderHack-Immortal на **Tauri (Rust)** под **Windows** и **Arch Linux**.
+Лаунчер Race Client на **Tauri (Rust)** под **Windows** и **Arch Linux**.
 Бэкенд запуска Minecraft — библиотека [`lighty-launcher`](https://github.com/Lighty-Launcher/LightyLauncherLib)
 (Fabric, авто-Java, кросс-платформа). UI повторяет мокап (тёмно-золотая тема).
 
@@ -8,7 +8,7 @@
 
 - Оффлайн-вход по нику (cracked), как в мокапе — одно поле «Ник»
 - Выбор RAM / Java / JVM-аргументов / директории / Fabric loader
-- Авто-загрузка мода THI из GitHub Releases (`ItzSkater/ThunderHack-Immortal`)
+- Авто-загрузка мода Race Client из GitHub Releases (`ItzSkater/ThunderHack-Immortal`)
 - Вкладка «Обновления» тянет реальные релизы с GitHub
 - Безрамочное окно с кастомными кнопками (как в макете)
 - Настройки сохраняются в конфиг ОС

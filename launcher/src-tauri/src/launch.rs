@@ -19,7 +19,7 @@ where
     // 1. Make sure the THI mod jar is present in the instance's mods folder.
     let mods_dir = cfg.resolved_game_dir().join("mods");
     if cfg.auto_update || !mods_present(&mods_dir) {
-        emit("download", "Загрузка ThunderHack-Immortal...");
+        emit("download", "Загрузка Race Client...");
         if let Err(e) = updates::download_latest_mod(&mods_dir).await {
             // Non-fatal: the user may have placed the jar manually.
             emit("warn", &format!("Не удалось обновить мод: {e}"));

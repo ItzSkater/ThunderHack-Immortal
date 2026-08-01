@@ -3,11 +3,11 @@
   "id": "thunderhack",
   "version": "${version}",
   "icon": "icon.png",
-  "name": "ThunderHack-Immortal",
-  "description": "ThunderHack-Immortal — a fork of ThunderHack with extra combat and movement modules, configs compatible with original ThunderHack.",
+  "name": "Race Client",
+  "description": "Race Client — a fork of ThunderHack with extra combat and movement modules, configs compatible with original ThunderHack.",
   "authors": [
     {
-      "name": "ItzSkater (Immortal fork)"
+      "name": "ItzSkater (Race Client)"
     },
     {
       "name": "pan4ur (original ThunderHack-Recode)",

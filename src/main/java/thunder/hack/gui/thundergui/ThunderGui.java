@@ -230,7 +230,7 @@ public class ThunderGui extends Screen {
         context.getMatrices().scale(1, 1, 1);
         context.getMatrices().pop();
 
-        FontRenderers.settings.drawString(context.getMatrices(), "immortal v" + ThunderHack.VERSION, main_posX + 91 - (FontRenderers.settings.getStringWidth("immortal v" + ThunderHack.VERSION)), main_posY + 30, ThunderHackGui.getColorByTheme(3).getRGB());
+        FontRenderers.settings.drawString(context.getMatrices(), "race v" + ThunderHack.VERSION, main_posX + 91 - (FontRenderers.settings.getStringWidth("race v" + ThunderHack.VERSION)), main_posY + 30, ThunderHackGui.getColorByTheme(3).getRGB());
 
         // Левая плита под категриями
         Render2DEngine.drawRound(context.getMatrices(), main_posX + 5, main_posY + 40, 90, 120, 7f, ThunderHackGui.getColorByTheme(4));

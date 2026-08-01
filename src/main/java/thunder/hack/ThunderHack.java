@@ -24,8 +24,8 @@ public class ThunderHack implements ModInitializer {
     public static final ModMetadata MOD_META;
 
     public static final String MOD_ID = "thunderhack";
-    public static final String NAME = "ThunderHack-Immortal";
-    public static final String VERSION = "1.1";
+    public static final String NAME = "Race Client";
+    public static final String VERSION = "1.2.1";
     public static String GITHUB_HASH = "0";
     public static String BUILD_DATE = "1 Jan 1970";
 
@@ -70,7 +70,7 @@ public class ThunderHack implements ModInitializer {
         Render2DEngine.initShaders();
         ModuleManager.rpc.startRpc();
 
-        LOGGER.info("[ThunderHack-Immortal] Init time: {} ms.", System.currentTimeMillis() - initTime);
+        LOGGER.info("[Race Client] Init time: {} ms.", System.currentTimeMillis() - initTime);
         initTime = System.currentTimeMillis();
 
         RUNTIME.addShutdownHook(new ManagerShutdownHook());
