@@ -52,7 +52,7 @@ public class NoAimStrafe extends Module {
 
             // where is the aimer's crosshair drifting relative to dead-on? pick
             // the side that moves us away from that drift (hysteresis avoids jitter)
-            Vec3d view = aimer.getRotationVec(1.0f);
+            Vec3d view = lookVec(aimer);
             double cross = dx * view.z - dz * view.x; // 2D cross (toMe × view)
             if (cross > 0.02) side = -1;
             else if (cross < -0.02) side = 1;
@@ -89,7 +89,7 @@ public class NoAimStrafe extends Module {
             if (toMe.lengthSquared() < 1.0E-6) continue;
             toMe = toMe.normalize();
 
-            Vec3d view = p.getRotationVec(1.0f);
+            Vec3d view = lookVec(p);
             double dot = Math.max(-1.0, Math.min(1.0, view.dotProduct(toMe)));
             double angle = Math.toDegrees(Math.acos(dot));
 
@@ -99,5 +99,13 @@ public class NoAimStrafe extends Module {
             }
         }
         return best;
+    }
+
+    /** Unit look vector from an entity's yaw/pitch (same as getRotationVec). */
+    private static Vec3d lookVec(PlayerEntity p) {
+        double yaw = Math.toRadians(p.getYaw());
+        double pitch = Math.toRadians(p.getPitch());
+        double cosPitch = Math.cos(pitch);
+        return new Vec3d(-Math.sin(yaw) * cosPitch, -Math.sin(pitch), Math.cos(yaw) * cosPitch);
     }
 }
