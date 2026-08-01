@@ -229,6 +229,7 @@ public class ModuleManager implements IManager {
     public static XCarry xCarry = new XCarry();
     public static Trails trails = new Trails();
     public static Strafe strafe = new Strafe();
+    public static NoAimStrafe noAimStrafe = new NoAimStrafe();
     public static Spider spider = new Spider();
     public static NoSlow noSlow = new NoSlow();
     public static NoFall noFall = new NoFall();
