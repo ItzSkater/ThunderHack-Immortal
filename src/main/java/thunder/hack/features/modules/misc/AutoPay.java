@@ -27,8 +27,10 @@ public final class AutoPay extends Module {
     private final Setting<String> balanceCommand = new Setting<>("BalanceCommand", "bal");
     private final Setting<String> payCommand = new Setting<>("PayCommand", "pay");
 
+    // Allow an optional currency symbol / non-digit prefix (e.g. "€", "$", "₽")
+    // between "Баланс:" and the number: "Баланс: €7 млн.", "Balance: $256 тыс."
     private static final Pattern BALANCE = Pattern.compile(
-            "(?iu)(?:баланс|balance)\\s*:?\\s*([0-9][0-9\\s.,]*)\\s*(тыс|млн|млрд|k|m|b)?");
+            "(?iu)(?:баланс|balance)\\s*:?\\s*[^0-9]*?([0-9][0-9\\s.,]*)\\s*(тыс|млн|млрд|k|m|b)?");
 
     private final Timer timer = new Timer();
     private long lastBalance = -1;
