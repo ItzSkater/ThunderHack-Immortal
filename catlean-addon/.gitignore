@@ -1,0 +1,12 @@
+# Gradle / build
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local CatLean addon-api jar(s) — each dev supplies their own
+mod/*.jar
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store

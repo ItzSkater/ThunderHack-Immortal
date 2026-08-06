@@ -1,0 +1,2 @@
+Put your CatLean addon-api jar here (e.g. catlean-0.1.3-addon-api.jar) and point
+gradle.properties `catlean_jar` at it. Jars in this folder are gitignored.
