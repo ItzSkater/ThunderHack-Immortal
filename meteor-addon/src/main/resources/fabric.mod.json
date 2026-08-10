@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "race-addon",
+  "name": "Race Addon",
+  "version": "${version}",
+  "description": "Meteor addon porting Race Client features: AutoPay, TargetTP, Vega Aura and fast Target Strafe.",
+  "authors": [
+    "ItzSkater"
+  ],
+  "entrypoints": {
+    "meteor": [
+      "gg.raceclient.meteor.RaceAddon"
+    ]
+  },
+  "depends": {
+    "java": ">=${jdk_version}",
+    "minecraft": "${minecraft_version}",
+    "meteor-client": "*"
+  },
+  "custom": {
+    "meteor-client:color": "120,220,120",
+    "modmenu": {
+      "parent": {
+        "id": "meteor-client"
+      }
+    }
+  }
+}

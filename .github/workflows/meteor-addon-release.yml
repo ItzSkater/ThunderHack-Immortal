@@ -1,0 +1,87 @@
+name: Meteor Addon Release
+
+# Builds the Race Meteor addon (meteor-addon/) and attaches the jar to a release
+# tagged meteor_addon-v*.
+
+on:
+  release:
+    types: [created, published, edited]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing release tag to upload the addon to (e.g. meteor_addon-v1.0-alpha)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve target ref
+        id: ref
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+            echo "ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+            echo "ref=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Tag-prefix gate
+        id: gate
+        run: |
+          tag="${{ steps.ref.outputs.tag }}"
+          if [[ "$tag" == meteor_addon-* ]]; then
+            echo "go=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag '$tag' is not a meteor-addon release; skipping"
+            echo "go=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.gate.outputs.go == '1'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.ref.outputs.ref }}
+
+      - name: Set up JDK 21 (Gradle runtime)
+        if: steps.gate.outputs.go == '1'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        if: steps.gate.outputs.go == '1'
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14'
+
+      - name: Build
+        if: steps.gate.outputs.go == '1'
+        working-directory: meteor-addon
+        run: gradle build --no-daemon --stacktrace
+
+      - name: Drop sources/dev jars
+        if: steps.gate.outputs.go == '1'
+        working-directory: meteor-addon
+        run: |
+          rm -f ./build/libs/*-sources.jar
+          rm -f ./build/libs/*-dev.jar || true
+
+      - name: List artifacts
+        if: steps.gate.outputs.go == '1'
+        working-directory: meteor-addon
+        run: ls -la ./build/libs/
+
+      - name: Attach jar(s) to release
+        if: steps.gate.outputs.go == '1'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ref.outputs.tag }}
+          files: meteor-addon/build/libs/*.jar
+          fail_on_unmatched_files: true
