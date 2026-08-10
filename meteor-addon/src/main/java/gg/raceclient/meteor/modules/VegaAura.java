@@ -6,16 +6,16 @@ import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
 
 /**
  * Standalone kill-aura using a Vega-style rotation (smooth yaw step with slight
  * jitter). Meteor's built-in KillAura does not expose a rotation-plugin API, so
- * this ships the Vega rotation as its own aura module.
+ * this ships the Vega rotation as its own aura module. (Mojmap.)
  */
 public class VegaAura extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -42,20 +42,20 @@ public class VegaAura extends Module {
     @Override
     public void onActivate() {
         if (mc.player != null) {
-            rotationYaw = mc.player.getYaw();
-            rotationPitch = mc.player.getPitch();
+            rotationYaw = mc.player.getYRot();
+            rotationPitch = mc.player.getXRot();
         }
     }
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.level == null) return;
 
-        PlayerEntity target = nearestTarget();
+        Player target = nearestTarget();
         if (target == null) return;
 
-        Vec3d eye = mc.player.getEyePos();
-        Vec3d to = target.getEyePos();
+        Vec3 eye = mc.player.getEyePosition();
+        Vec3 to = target.getEyePosition();
         double dx = to.x - eye.x;
         double dy = to.y - eye.y;
         double dz = to.z - eye.z;
@@ -64,7 +64,6 @@ public class VegaAura extends Module {
         float targetYaw = (float) Math.toDegrees(Math.atan2(dz, dx)) - 90f;
         float targetPitch = (float) -Math.toDegrees(Math.atan2(dy, dist));
 
-        // Vega-style: clamp yaw movement to yawStep and add a little jitter
         float yawDelta = wrap(targetYaw - rotationYaw);
         float step = (float) Math.min(Math.abs(yawDelta), yawStep.get() + random(-jitter.get(), jitter.get()));
         rotationYaw += yawDelta > 0 ? step : -step;
@@ -74,17 +73,17 @@ public class VegaAura extends Module {
         Rotations.rotate(rotationYaw, rotationPitch);
 
         if (mc.player.distanceTo(target) <= range.get()) {
-            if (!onlyWhenReady.get() || mc.player.getAttackCooldownProgress(0) >= 1f) {
-                mc.interactionManager.attackEntity(mc.player, target);
-                mc.player.swingHand(Hand.MAIN_HAND);
+            if (!onlyWhenReady.get() || mc.player.getAttackStrengthScale(0.5f) >= 1f) {
+                mc.gameMode.attack(mc.player, target);
+                mc.player.swing(InteractionHand.MAIN_HAND);
             }
         }
     }
 
-    private PlayerEntity nearestTarget() {
-        PlayerEntity best = null;
+    private Player nearestTarget() {
+        Player best = null;
         double bestDist = range.get() + 2;
-        for (PlayerEntity p : mc.world.getPlayers()) {
+        for (Player p : mc.level.players()) {
             if (p == mc.player || !p.isAlive()) continue;
             double d = mc.player.distanceTo(p);
             if (d < bestDist) {

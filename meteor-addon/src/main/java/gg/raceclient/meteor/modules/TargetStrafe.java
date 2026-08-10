@@ -5,15 +5,12 @@ import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Fast circle-strafe around the nearest player, holding a fixed radius.
- *
- * NOTE: this drives movement by overwriting PlayerMoveEvent.movement (the
- * per-tick displacement). If the field/name differs in Meteor 26.1.2, adjust
- * the handler accordingly.
+ * Drives movement by overwriting PlayerMoveEvent.movement (Mojmap Vec3).
  */
 public class TargetStrafe extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -36,9 +33,9 @@ public class TargetStrafe extends Module {
 
     @EventHandler
     private void onMove(PlayerMoveEvent event) {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.level == null) return;
 
-        PlayerEntity target = nearestPlayer();
+        Player target = nearestPlayer();
         if (target == null) return;
 
         double dx = mc.player.getX() - target.getX();
@@ -51,7 +48,6 @@ public class TargetStrafe extends Module {
         double tx = -dz * dir;
         double tz = dx * dir;
 
-        // pull toward the desired radius
         double radiusError = dist - radius.get();
         tx += dx * (-radiusError) * 0.5;
         tz += dz * (-radiusError) * 0.5;
@@ -61,13 +57,13 @@ public class TargetStrafe extends Module {
         tx = tx / len * speed.get();
         tz = tz / len * speed.get();
 
-        event.movement = new Vec3d(tx, event.movement.y, tz);
+        event.movement = new Vec3(tx, event.movement.y, tz);
     }
 
-    private PlayerEntity nearestPlayer() {
-        PlayerEntity best = null;
+    private Player nearestPlayer() {
+        Player best = null;
         double bestDist = maxDistance.get();
-        for (PlayerEntity p : mc.world.getPlayers()) {
+        for (Player p : mc.level.players()) {
             if (p == mc.player || !p.isAlive()) continue;
             double d = mc.player.distanceTo(p);
             if (d < bestDist) {
